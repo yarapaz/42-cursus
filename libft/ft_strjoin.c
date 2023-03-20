@@ -35,15 +35,13 @@ void	loop(char *s1, char *s2, char *newstring)
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*newstring;
-	char	*aux_s1;
-	char	*aux_s2;
 
-	aux_s1 = (char *)s1;
-	aux_s2 = (char *)s2;
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
 	newstring = malloc((ft_strlen(s1) + ft_strlen(s2) + 1)
 			* sizeof(char));
 	if (!newstring)
 		return (0);
-	loop(aux_s1, aux_s2, newstring);
+	loop((char *)s1, (char *)s2, newstring);
 	return (newstring);
 }

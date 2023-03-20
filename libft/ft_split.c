@@ -11,6 +11,22 @@
 /* ************************************************************************** */
 #include "libft.h"
 
+static int	count_words(char const *s, char c)
+{
+	int	i;
+	int	words;
+
+	i = 0;
+	words = 0;
+	while (s[i] != '\0')
+	{
+		if ((s[i] != c) && (s[i + 1] == c || s[i + 1] == '\0'))
+			words++;
+		i++;
+	}
+	return (words);
+}
+
 static int	strchr_pos(char const *s, char c)
 {
 	char	*ptr;
@@ -24,20 +40,18 @@ static int	strchr_pos(char const *s, char c)
 	return (pos_c);
 }
 
-static int	count_words(char const *s, char c)
+static void	*free_mallocs(char **main_string)
 {
 	int	i;
-	int	words;
 
 	i = 0;
-	words = 0;
-	while (s[i] != '\0')
+	while (main_string[i] != '\0')
 	{
-		if ((s[i + 1] == c || s[i + 1] == '\0') && (s[i] != c))
-			words++;
+		free(main_string[i]);
 		i++;
 	}
-	return (words);
+	free(main_string);
+	return (NULL);
 }
 
 static char	**complete_array(char const *s, char c, char **main_string)
@@ -57,7 +71,7 @@ static char	**complete_array(char const *s, char c, char **main_string)
 			{	
 				main_string[i] = ft_substr(s, 0, pos_c);
 				if (!main_string[i])
-					return (NULL);
+					return (free_mallocs(main_string));
 				i++;
 				s += pos_c;
 			}
@@ -73,6 +87,8 @@ char	**ft_split(char const *s, char c)
 {
 	char	**main_string;
 
+	if (s == NULL)
+		return (NULL);
 	main_string = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
 	if (!main_string)
 		return (NULL);

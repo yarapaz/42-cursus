@@ -16,8 +16,10 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	unsigned int		i;
 	char				*finalstring;
 
+	if (s == NULL)
+		return (NULL);
 	i = 0;
-	finalstring = (char *)malloc((ft_strlen((char *)s) + 1) * sizeof(char));
+	finalstring = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (!finalstring)
 		return (0);
 	while (s[i] != '\0')

@@ -22,12 +22,11 @@ static	char	*insertdigits(int n, char *finalstring, int numdigits)
 	{
 		finalstring[i] = '-';
 		n = -n;
-		i++;
 	}
-	i = numdigits + 1;
+	i = numdigits - 1;
 	while (n > 0)
 	{
-		finalstring[i - 2] = (n % 10) + '0';
+		finalstring[i] = (n % 10) + '0';
 		n = n / 10;
 		i--;
 	}
