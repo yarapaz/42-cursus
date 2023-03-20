@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/13 20:57:52 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
 #include "libft.h"
 
 void	ft_putnbr_fd(int n, int fd)

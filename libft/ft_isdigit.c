@@ -6,9 +6,10 @@
 /*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:32:23 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/08 21:04:31 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:34:38 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
 int	ft_isdigit(int n)
 {

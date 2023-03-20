@@ -6,10 +6,10 @@
 /*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 21:03:59 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/08 21:34:24 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:36:24 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <ctype.h>
+#include "libft.h"
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {

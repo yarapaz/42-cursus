@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/12 17:48:37 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
 #include "libft.h"
 
 static	char	*insertdigits(int n, char *finalstring, int numdigits)

@@ -6,10 +6,10 @@
 /*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 20:41:51 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/08 20:44:45 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:36:02 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <ctype.h>
+#include "libft.h"
 
 void	ft_bzero(void *s, size_t n)
 {

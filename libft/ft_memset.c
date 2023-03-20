@@ -6,10 +6,10 @@
 /*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:59:31 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/08 12:13:24 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:35:48 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <ctype.h>
+#include "libft.h"
 
 void	*ft_memset(void *b, int c, size_t len)
 {

@@ -9,7 +9,6 @@
 /*   Updated: 2023/03/08 12:57:33 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <ctype.h>
 #include "libft.h"
 
 size_t	ft_strlcat(char *dest, const char *src, size_t dstsize)

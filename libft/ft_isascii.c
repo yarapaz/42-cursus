@@ -6,9 +6,10 @@
 /*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:47:03 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/08 12:07:49 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:34:49 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
 int	ft_isascii(int n)
 {

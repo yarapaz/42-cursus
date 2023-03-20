@@ -6,10 +6,10 @@
 /*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 13:19:45 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/09 20:55:31 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:56:15 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <ctype.h>
+#include "libft.h"
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
 {

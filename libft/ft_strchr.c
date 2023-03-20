@@ -9,21 +9,20 @@
 /*   Updated: 2023/03/08 22:55:38 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
 	int		i;
-	char	ch;
 
 	i = 0;
-	ch = (char)c;
 	while (s[i] != '\0')
 	{
-		if (s[i] == ch)
+		if (s[i] == (char)c)
 			return ((char *)&s[i]);
 		i++;
 	}
-	if (ch == '\0')
+	if ((char)c == '\0')
 		return ((char *)&s[i]);
 	return (0);
 }
