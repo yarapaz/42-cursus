@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 19:51:42 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/23 16:13:35 by yapaz-go         ###   ########.fr       */
+/*   Created: 2023/03/23 16:18:48 by yapaz-go          #+#    #+#             */
+/*   Updated: 2023/03/23 16:48:51 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*aux;
-	t_list	*aux2;
+	t_list	*final_list;
 
-	if (lst[0] == NULL)
-		return ;
-	else
-	{
-		aux = *lst;
-		while (aux != NULL)
-		{
-			aux2 = aux->next;
-			ft_lstdelone(aux, del);
-			aux = aux2;
-		}
-		*lst = NULL;
-	}
+	if (lst == NULL)
+		return (NULL);
+	final_list = ft_lstnew(f(lst->content));
+	if (!final_list)
+		ft_lstdelone(final_list, del);
+	final_list->next = ft_lstmap(lst->next, f, del);
+	return (final_list);
 }
