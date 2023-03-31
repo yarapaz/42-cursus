@@ -12,6 +12,45 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
+static char *lower_bytes(int bytes, char *aux_line, char *line, char *file)
+{
+	if (!aux_line)
+	{
+		line = ft_substr(file, 0, bytes);
+		free(file);
+		return (line);
+	}
+	else 
+	{
+		return (ft_strcat(aux_line, ft_substr(file, 0, bytes)));
+	}
+	return (NULL);
+}
+
+static char *same_bytes(char *aux_line, char *line, char *file, int bytes)
+{
+	int			i;
+
+	i = 0;
+	if (aux_line)
+		line = ft_strcat(aux_line, ft_substr(file, 0, bytes));
+	else
+		line = ft_substr(file, 0, bytes);
+	free(file);
+	while (line[i] != '\0')
+	{
+		if (line[i] == '\n' && line[i + 1] == '\0')
+			return (line);
+		else if (line[i] == '\n' && line[i + 1] != '\0')
+		{
+			aux_line = ft_strcut(line, '\n');
+			line = ft_substr(line, 0, i);
+			return (line);	
+		}
+		i++;
+	}
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*aux_line;
@@ -33,37 +72,11 @@ char	*get_next_line(int fd)
 		if (bytes == 0 || bytes < 0)
 			return (NULL);
 		if (bytes != BUFFER_SIZE)
-		{
-			if (!aux_line)
-			{
-				line = ft_substr(file, 0, bytes);
-				free(file);
-				return (line);
-			}
-			else 
-			{
-				return (ft_strcat(aux_line, ft_substr(file, 0, bytes)));
-			}
-		}
+			lower_bytes(bytes, aux_line, line, file);
 		else if (bytes == BUFFER_SIZE)
 		{
-			if (aux_line)
-				line = ft_strcat(aux_line, ft_substr(file, 0, bytes));
-			else
-				line = ft_substr(file, 0, bytes);
-			free(file);
-			while (line[i] != '\0')
-			{
-				if (line[i] == '\n' && line[i + 1] == '\0')
-					return (line);
-				else if (line[i] == '\n' && line[i + 1] != '\0')
-				{
-					aux_line = ft_strcut(line, '\n');
-					line = ft_substr(line, 0, i);
-					return (line);	
-				}
-				i++;
-			}
+			same_bytes(bytes, aux_line, line, file);
+			get_next_line(fd);
 		}
 	}
 	return (NULL);
