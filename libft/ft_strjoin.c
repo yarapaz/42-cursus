@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-void	loop(char *s1, char *s2, char *newstring)
+static void	loop(char *s1, char *s2, char *newstring)
 {
 	int	i;
 	int	j;
