@@ -12,21 +12,47 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-static char *lower_bytes(int bytes, char *aux_line, char *line, char *file)
+static char *manage_end_of_file(int bytes, char *aux_line, char *line)
 {
+	int	i;
+	char *prov_line;
+
+	i = 0;
 	if (!aux_line)
 	{
-		line = ft_substr(file, 0, bytes);
-		free(file);
+		line = ft_substr(line, 0, bytes);
 		return (line);
 	}
 	else 
 	{
-		return (ft_strcat(aux_line, ft_substr(file, 0, bytes)));
+		while (aux_line[i] != '\0')
+		{
+			if (aux_line[i] == '\n' && aux_line[i + 1] == '\0')
+			{
+				prov_line = aux_line;
+				if (line)
+					aux_line = line;
+				return (ft_substr(prov_line, 0, i));
+			}
+			else if (aux_line[i] == '\n' && aux_line[i + 1] != '\0')
+			{
+				prov_line = aux_line;
+				if (line)
+					aux_line = ft_strjoin(ft_strcut(prov_line, '\n'), (const char*)line);
+				else
+					aux_line = ft_strcut(prov_line, '\n');
+				return (ft_substr(prov_line, 0, i));
+			}
+		}
+		if (line)
+			return (ft_strjoin(aux_line, ft_substr(line, 0, bytes)));
+		else
+			return (aux_line);
 	}
 	return (NULL);
 }
 
+//Desarrollar y comprobar esta función
 static char *same_bytes(char *aux_line, char *line, char *file, int bytes)
 {
 	int			i;
@@ -54,25 +80,32 @@ static char *same_bytes(char *aux_line, char *line, char *file, int bytes)
 char	*get_next_line(int fd)
 {
 	static char	*aux_line;
-    char		*file;
 	char		*line;
 	int			bytes;
-	int			i;
-	int			j;
 
-	i = 0;
-	j = 0;
 	bytes = 0;
     if (fd != -1)
     {
-		file = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-		if (!file)
+		if (BUFFER_SIZE == 0)
 			return (NULL);
-		bytes = read(fd, file, BUFFER_SIZE);
+		line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!line)
+			return (NULL);
+		bytes = read(fd, line, BUFFER_SIZE);
+		//Controlar el read
+		if (bytes == 0 && aux_line != NULL)
+		{
+			line = manage_end_of_file(bytes, aux_line, line);
+			return (line);
+		}
 		if (bytes == 0 || bytes < 0)
 			return (NULL);
 		if (bytes != BUFFER_SIZE)
-			lower_bytes(bytes, aux_line, line, file);
+		{
+			line = manage_end_of_file(bytes, aux_line, line);
+			return (line);
+		}
+		//Desarrollar y comprobar esta función
 		else if (bytes == BUFFER_SIZE)
 		{
 			same_bytes(bytes, aux_line, line, file);

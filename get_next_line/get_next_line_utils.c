@@ -72,7 +72,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substring);
 }
 
-char  *ft_strcat(char *dest, const char *src)
+char  *ft_strjoin(char *dest, const char *src)
 {
 	size_t	i;
 	size_t	j;
