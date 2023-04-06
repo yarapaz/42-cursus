@@ -12,7 +12,6 @@
 
 #include "get_next_line.h"
 
-
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
@@ -45,9 +44,9 @@ static char	*ft_strdup(const char *s1)
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char				*substring;
-	size_t				i;
-	size_t				length_s;
+	char	*substring;
+	size_t	i;
+	size_t	length_s;
 
 	if (s == NULL)
 		return (NULL);
@@ -72,7 +71,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substring);
 }
 
-char  *ft_strjoin(char *dest, const char *src)
+char	*ft_strcat(char *dest, const char *src)
 {
 	size_t	i;
 	size_t	j;
@@ -92,7 +91,7 @@ char  *ft_strjoin(char *dest, const char *src)
 	return (dest);
 }
 
-char  *ft_strcut(char *str, char c)
+/* char	*ft_strcut(char *str, char c)
 {
 	int	i;
 
@@ -104,4 +103,22 @@ char  *ft_strcut(char *str, char c)
 		i++;
 	}
 	return (NULL);
+} */
+
+char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if ((char)c == '\0')
+		return ((char *)&s[i]);
+	return (0);
 }
+
+

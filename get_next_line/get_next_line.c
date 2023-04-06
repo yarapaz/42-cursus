@@ -12,105 +12,93 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-static char *manage_end_of_file(int bytes, char *aux_line, char *line)
+static int read_buffer(int fd, char *store_line)
 {
-	int	i;
-	char *prov_line;
+	int		bytes;
 
-	i = 0;
+	bytes = read(fd, store_line, BUFFER_SIZE);
+	return (bytes);
+}
+
+static char	*manage_end_of_file(char *store_line)
+{
+	char	*aux_line;
+	char	*char_ptr;
+	int		char_pos;
+
+	char_pos = 0;
+	aux_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!aux_line)
+		return (NULL);
+	char_ptr = ft_strchr(store_line, '\n');
+	if (char_ptr == 0)
+		return (store_line);
+	else
 	{
-		line = ft_substr(line, 0, bytes);
-		return (line);
-	}
-	else 
-	{
-		while (aux_line[i] != '\0')
-		{
-			if (aux_line[i] == '\n' && aux_line[i + 1] == '\0')
-			{
-				prov_line = aux_line;
-				if (line)
-					aux_line = line;
-				return (ft_substr(prov_line, 0, i));
-			}
-			else if (aux_line[i] == '\n' && aux_line[i + 1] != '\0')
-			{
-				prov_line = aux_line;
-				if (line)
-					aux_line = ft_strjoin(ft_strcut(prov_line, '\n'), (const char*)line);
-				else
-					aux_line = ft_strcut(prov_line, '\n');
-				return (ft_substr(prov_line, 0, i));
-			}
-		}
-		if (line)
-			return (ft_strjoin(aux_line, ft_substr(line, 0, bytes)));
-		else
-			return (aux_line);
+		char_pos = store_line - char_ptr;
+		aux_line = ft_substr(store_line, 0, char_pos);
+		store_line = ft_substr(store_line, char_pos + 1, ft_strlen(store_line));
+		return (aux_line);
 	}
 	return (NULL);
 }
-
-//Desarrollar y comprobar esta función
-static char *same_bytes(char *aux_line, char *line, char *file, int bytes)
+static char	*manage_file(char *store_line, int fd)
 {
-	int			i;
+	char	*aux_line;
+	char	*char_ptr;
 
-	i = 0;
-	if (aux_line)
-		line = ft_strcat(aux_line, ft_substr(file, 0, bytes));
-	else
-		line = ft_substr(file, 0, bytes);
-	free(file);
-	while (line[i] != '\0')
+	aux_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!aux_line)
+		return (NULL);
+	char_ptr = ft_strchr(store_line, '\n');
+	while (char_ptr == 0)
 	{
-		if (line[i] == '\n' && line[i + 1] == '\0')
-			return (line);
-		else if (line[i] == '\n' && line[i + 1] != '\0')
-		{
-			aux_line = ft_strcut(line, '\n');
-			line = ft_substr(line, 0, i);
-			return (line);	
-		}
-		i++;
+		read_buffer(fd, aux_line);
+		store_line = ft_strcat(store_line, aux_line);
+		char_ptr = ft_strchr(store_line, '\n');
 	}
+	return (store_line);
+}
+
+static char *reading_conditions(int bytes, char *store_line, int fd) 
+{
+	if (bytes == 0 && store_line != NULL)
+		return (manage_end_of_file(store_line));
+	else if (bytes <= 0)
+		return (NULL);
+	if (bytes != BUFFER_SIZE)
+		return (manage_end_of_file(store_line));
+	else if (bytes == BUFFER_SIZE)
+		return (manage_file(store_line, fd)); 
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*aux_line;
-	char		*line;
-	int			bytes;
+	static char	*store_line;
+	char *char_ptr;
+	int		char_pos;
+
+	int	bytes;
 
 	bytes = 0;
-    if (fd != -1)
-    {
-		if (BUFFER_SIZE == 0)
+	if (!store_line)
+	{
+		store_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!store_line)
 			return (NULL);
-		line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-		if (!line)
-			return (NULL);
-		bytes = read(fd, line, BUFFER_SIZE);
-		//Controlar el read
-		if (bytes == 0 && aux_line != NULL)
-		{
-			line = manage_end_of_file(bytes, aux_line, line);
-			return (line);
-		}
-		if (bytes == 0 || bytes < 0)
-			return (NULL);
-		if (bytes != BUFFER_SIZE)
-		{
-			line = manage_end_of_file(bytes, aux_line, line);
-			return (line);
-		}
-		//Desarrollar y comprobar esta función
-		else if (bytes == BUFFER_SIZE)
-		{
-			same_bytes(bytes, aux_line, line, file);
-			get_next_line(fd);
-		}
 	}
+	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
+		return (NULL);
+	else if (fd != -1 && BUFFER_SIZE > 0)
+	{
+		bytes = read_buffer(fd, store_line);
+		store_line = reading_conditions(bytes, store_line, fd);
+		char_ptr = ft_strchr(store_line, '\n');
+		char_pos = char_ptr - store_line;
+		store_line = ft_substr(store_line, char_pos + 1, ft_strlen(store_line));
+		return (ft_substr(store_line, 0, char_pos)); //devuelve los reminders, no las lineas
+	}	
 	return (NULL);
 }
+

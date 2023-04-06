@@ -17,8 +17,9 @@ int main(void)
 	int	fd;
 
 	fd = open("file.txt", O_RDONLY);
-	printf("first line:%s", get_next_line(fd));
-	printf("second line:%s", get_next_line(fd));
-	printf("third line:%s", get_next_line(fd));
+	printf("first line:%s \n", get_next_line(fd));
+	printf("second line:%s \n", get_next_line(fd));
+	printf("third line:%s \n", get_next_line(fd));
+	printf("fourth line:%s \n", get_next_line(fd));
 	return (0);
 }
