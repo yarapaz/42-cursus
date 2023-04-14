@@ -15,34 +15,32 @@
 static int read_buffer(int fd, char *store_line)
 {
 	int		bytes;
+	char 	*aux_line;
 
-	bytes = read(fd, store_line, BUFFER_SIZE);
+	aux_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!aux_line)
+		return (0);
+	bytes = read(fd, aux_line, BUFFER_SIZE);
+	store_line = ft_strcat(store_line, aux_line);
 	return (bytes);
 }
 
-static char	*manage_end_of_file(char *store_line)
+static char *search_line(char *store_line)
 {
-	char	*aux_line;
 	char	*char_ptr;
-	int		char_pos;
+	char 	*eof_ptr;
 
-	char_pos = 0;
-	aux_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!aux_line)
-		return (NULL);
 	char_ptr = ft_strchr(store_line, '\n');
-	if (char_ptr == 0)
+	eof_ptr = ft_strchr(store_line, EOF);
+	if (char_ptr == 0 && eof_ptr != 0)
 		return (store_line);
-	else
-	{
-		char_pos = store_line - char_ptr;
-		aux_line = ft_substr(store_line, 0, char_pos);
-		store_line = ft_substr(store_line, char_pos + 1, ft_strlen(store_line));
-		return (aux_line);
-	}
+	else if (char_ptr == 0 && eof_ptr == 0) //no me encuentra el EOF y nunca sabe cuando terminar. No devuelve nunca el store_line. Bucle infinito
+		return (char_ptr);
+	else if (char_ptr != 0) 
+		return (char_ptr);
 	return (NULL);
 }
-static char	*manage_file(char *store_line, int fd)
+static char	*manage_file(char *store_line, int fd, int bytes)
 {
 	char	*aux_line;
 	char	*char_ptr;
@@ -50,38 +48,31 @@ static char	*manage_file(char *store_line, int fd)
 	aux_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!aux_line)
 		return (NULL);
-	char_ptr = ft_strchr(store_line, '\n');
-	while (char_ptr == 0)
-	{
-		read_buffer(fd, aux_line);
-		store_line = ft_strcat(store_line, aux_line);
-		char_ptr = ft_strchr(store_line, '\n');
-	}
-	return (store_line);
-}
-
-static char *reading_conditions(int bytes, char *store_line, int fd) 
-{
 	if (bytes == 0 && store_line != NULL)
-		return (manage_end_of_file(store_line));
-	else if (bytes <= 0)
-		return (NULL);
-	if (bytes != BUFFER_SIZE)
-		return (manage_end_of_file(store_line));
+		return (search_line(store_line));
+	else if (bytes != BUFFER_SIZE) 
+		return (search_line(store_line)); 
 	else if (bytes == BUFFER_SIZE)
-		return (manage_file(store_line, fd)); 
+	{
+		char_ptr = search_line(store_line);
+		while (char_ptr == 0)
+		{
+			read_buffer(fd, aux_line);
+			store_line = ft_strcat(store_line, aux_line);
+			char_ptr = search_line(store_line);
+		}
+		return (char_ptr);
+	}
 	return (NULL);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*store_line;
-	char *char_ptr;
-	int		char_pos;
+	char 		*aux_line;
+	int			bytes;
+	char		*char_ptr;
 
-	int	bytes;
-
-	bytes = 0;
 	if (!store_line)
 	{
 		store_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -93,12 +84,13 @@ char	*get_next_line(int fd)
 	else if (fd != -1 && BUFFER_SIZE > 0)
 	{
 		bytes = read_buffer(fd, store_line);
-		store_line = reading_conditions(bytes, store_line, fd);
-		char_ptr = ft_strchr(store_line, '\n');
-		char_pos = char_ptr - store_line;
-		store_line = ft_substr(store_line, char_pos + 1, ft_strlen(store_line));
-		return (ft_substr(store_line, 0, char_pos)); //devuelve los reminders, no las lineas
+		if ((char_ptr = manage_file(store_line, fd, bytes)) - store_line == 0)
+			return (char_ptr);
+		else {
+			aux_line = ft_substr(store_line, 0, (char_ptr - store_line));
+			store_line = ft_substr(store_line, ((char_ptr - store_line) + 1), ft_strlen(store_line));
+			return (aux_line);	
+		}
 	}	
 	return (NULL);
 }
-
