@@ -12,16 +12,20 @@
 
 #include "get_next_line.h"
 
+//calculate length of string
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
 	i = 0;
-	while (str[i] != '\0')
+	if (str == NULL)
+		return (0);
+	while (str && str[i] != '\0')
 		i++;
 	return (i);
 }
 
+//copy string
 static char	*ft_strdup(const char *s1)
 {
 	size_t	length;
@@ -42,6 +46,7 @@ static char	*ft_strdup(const char *s1)
 	return (result);
 }
 
+//make sub string of string
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*substring;
@@ -71,45 +76,43 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substring);
 }
 
-char	*ft_strcat(char *dest, const char *src)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	i;
-	size_t	j;
+	char	*newstring;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
-	if (dest == NULL || src == NULL)
-		return (0);
-	while (dest[i] != '\0')
-		i++;
-	while (src[j] != '\0')
+	if (!ft_strlen(s1) && s2 == NULL)
+		return (NULL);
+	if (s2 == NULL)
+		return ((char *)s1);
+	newstring = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!newstring)
+		return (NULL);
+	while (s1[i] != '\0')
 	{
-		dest[i + j] = src[j];
+		newstring[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		newstring[i] = s2[j];
+		i++;
 		j++;
 	}
-	dest[i + j] = '\0';
-	return (dest);
+	newstring[i] = '\0';
+	return (newstring);
 }
-
-/* char	*ft_strcut(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			return (ft_substr(str, i + 1, ft_strlen(str) - i));
-		i++;
-	}
-	return (NULL);
-} */
 
 char	*ft_strchr(const char *s, int c)
 {
 	int		i;
 
 	i = 0;
+	if (s == NULL)
+		return(0);
 	while (s[i] != '\0')
 	{
 		if (s[i] == (char)c)
@@ -120,5 +123,22 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)&s[i]);
 	return (0);
 }
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*s;
+	size_t			i;
 
+	i = 0;
+	if (count == SIZE_MAX || size == SIZE_MAX)
+		return (NULL);
+	s = malloc(count * size);
+	if (!s)
+		return (0);
+	while (i < count * size)
+	{
+		s[i] = '\0';
+		i++;
+	}
+	return ((void *)s);
+}
 

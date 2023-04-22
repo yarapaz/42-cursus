@@ -12,85 +12,77 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-static int read_buffer(int fd, char *store_line)
+
+
+static char *read_buffer(int fd, char *store_line)
 {
 	int		bytes;
-	char 	*aux_line;
+	char 	*new_line;
 
-	aux_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!aux_line)
-		return (0);
-	bytes = read(fd, aux_line, BUFFER_SIZE);
-	store_line = ft_strcat(store_line, aux_line);
-	return (bytes);
-}
-
-static char *search_line(char *store_line)
-{
-	char	*char_ptr;
-	char 	*eof_ptr;
-
-	char_ptr = ft_strchr(store_line, '\n');
-	eof_ptr = ft_strchr(store_line, EOF);
-	if (char_ptr == 0 && eof_ptr != 0)
-		return (store_line);
-	else if (char_ptr == 0 && eof_ptr == 0) //no me encuentra el EOF y nunca sabe cuando terminar. No devuelve nunca el store_line. Bucle infinito
-		return (char_ptr);
-	else if (char_ptr != 0) 
-		return (char_ptr);
-	return (NULL);
-}
-static char	*manage_file(char *store_line, int fd, int bytes)
-{
-	char	*aux_line;
-	char	*char_ptr;
-
-	aux_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!aux_line)
+	new_line = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!new_line)
 		return (NULL);
-	if (bytes == 0 && store_line != NULL)
-		return (search_line(store_line));
-	else if (bytes != BUFFER_SIZE) 
-		return (search_line(store_line)); 
-	else if (bytes == BUFFER_SIZE)
+	bytes = read(fd, new_line, BUFFER_SIZE);
+	if (bytes < 0)
 	{
-		char_ptr = search_line(store_line);
-		while (char_ptr == 0)
-		{
-			read_buffer(fd, aux_line);
-			store_line = ft_strcat(store_line, aux_line);
-			char_ptr = search_line(store_line);
-		}
-		return (char_ptr);
+		free(new_line);
+		return (NULL);
 	}
-	return (NULL);
+	store_line = ft_strjoin(store_line, new_line);
+	//meter aqui la funcion search_line para controlar el numero de bytes leidos
+	return (store_line);
+}
+
+static int	search_end_of_line(char *store_line)
+{
+	char	*char_ptr;
+	int		char_pos;
+
+    char_ptr = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!char_ptr)
+		return (0);
+	char_ptr = ft_strchr(store_line, '\n');
+	if (char_ptr != 0)
+	{
+		char_pos = char_ptr - store_line;
+		free(char_ptr);
+		return (char_pos);
+	}
+	free(char_ptr);
+	return (ft_strlen(store_line) - 1);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*store_line;
-	char 		*aux_line;
-	int			bytes;
-	char		*char_ptr;
+	char		*new_line;
+	int			char_pos;
 
+	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1 || fd == -1) 
+		return (NULL);
 	if (!store_line)
 	{
-		store_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		store_line = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 		if (!store_line)
 			return (NULL);
 	}
-	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
-		return (NULL);
-	else if (fd != -1 && BUFFER_SIZE > 0)
+	store_line = read_buffer(fd, store_line);
+	if (ft_strlen(store_line) != 0)
 	{
-		bytes = read_buffer(fd, store_line);
-		if ((char_ptr = manage_file(store_line, fd, bytes)) - store_line == 0)
-			return (char_ptr);
-		else {
-			aux_line = ft_substr(store_line, 0, (char_ptr - store_line));
-			store_line = ft_substr(store_line, ((char_ptr - store_line) + 1), ft_strlen(store_line));
-			return (aux_line);	
+		char_pos = search_end_of_line(store_line); 
+		while ((size_t)char_pos == (ft_strlen(store_line) - 1)) 
+		{
+			store_line = read_buffer(fd, store_line);
+			if (char_pos == 0 || )
+				return (store_line);
+			char_pos = search_end_of_line(store_line);
 		}
-	}	
+		new_line = ft_substr(store_line, 0, char_pos);
+		store_line = ft_substr(store_line, (char_pos + 1), ft_strlen(store_line) - 1);
+		return (new_line);
+	}
+	store_line = ft_strdup("");
+	free(new_line);
+	free(store_line);
 	return (NULL);
 }

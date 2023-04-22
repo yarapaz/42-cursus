@@ -15,11 +15,14 @@
 int main(void)
 {
 	int	fd;
+	char	*aux_line;
 
 	fd = open("file.txt", O_RDONLY);
-	printf("first line:%s \n", get_next_line(fd));
-	printf("second line:%s \n", get_next_line(fd));
-	printf("third line:%s \n", get_next_line(fd));
-	printf("fourth line:%s \n", get_next_line(fd));
+	aux_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	while ((aux_line = get_next_line(fd)) != NULL)
+	{
+		printf("line:%s \n", aux_line);
+	};
+	system("leaks main");
 	return (0);
 }
