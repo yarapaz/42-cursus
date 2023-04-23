@@ -12,7 +12,6 @@
 
 #include "get_next_line.h"
 
-//calculate length of string
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
@@ -25,8 +24,7 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-//copy string
-static char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *s1)
 {
 	size_t	length;
 	char	*result;
@@ -46,7 +44,6 @@ static char	*ft_strdup(const char *s1)
 	return (result);
 }
 
-//make sub string of string
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*substring;
@@ -76,13 +73,13 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substring);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*newstring;
 	int		i;
 	int		j;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	if (!ft_strlen(s1) && s2 == NULL)
 		return (NULL);
@@ -91,11 +88,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	newstring = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!newstring)
 		return (NULL);
-	while (s1[i] != '\0')
-	{
+	while (s1[++i] != '\0')
 		newstring[i] = s1[i];
-		i++;
-	}
 	while (s2[j] != '\0')
 	{
 		newstring[i] = s2[j];
@@ -121,24 +115,6 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if ((char)c == '\0')
 		return ((char *)&s[i]);
-	return (0);
-}
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*s;
-	size_t			i;
-
-	i = 0;
-	if (count == SIZE_MAX || size == SIZE_MAX)
-		return (NULL);
-	s = malloc(count * size);
-	if (!s)
-		return (0);
-	while (i < count * size)
-	{
-		s[i] = '\0';
-		i++;
-	}
-	return ((void *)s);
+	return (NULL);
 }
 

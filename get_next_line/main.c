@@ -18,11 +18,11 @@ int main(void)
 	char	*aux_line;
 
 	fd = open("file.txt", O_RDONLY);
-	aux_line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	while ((aux_line = get_next_line(fd)) != NULL)
 	{
 		printf("line:%s \n", aux_line);
+		free(aux_line);
 	};
-	system("leaks main");
+	system("leaks -q a.out");
 	return (0);
 }
