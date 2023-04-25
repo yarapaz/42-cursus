@@ -24,7 +24,7 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(char *s1)
 {
 	size_t	length;
 	char	*result;
@@ -55,9 +55,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	length_s = ft_strlen((char *)s);
 	if (len == 0 || length_s == 0)
-		return (ft_strdup(""));
+		return (NULL);
 	if (start >= length_s)
-		return (ft_strdup(""));
+		return (NULL);
 	if (len > length_s - start)
 		len = length_s - start;
 	substring = (char *)malloc((len + 1) * sizeof(char));
@@ -81,22 +81,19 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = -1;
 	j = 0;
-	if (!ft_strlen(s1) && s2 == NULL)
-		return (NULL);
-	if (s2 == NULL)
+	if (!s2 && s1)
 		return ((char *)s1);
+	if (!s1)
+		return (NULL); 
 	newstring = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!newstring)
 		return (NULL);
 	while (s1[++i] != '\0')
 		newstring[i] = s1[i];
 	while (s2[j] != '\0')
-	{
-		newstring[i] = s2[j];
-		i++;
-		j++;
-	}
+		newstring[i++] = s2[j++];
 	newstring[i] = '\0';
+	free(s1);
 	return (newstring);
 }
 

@@ -29,6 +29,6 @@ size_t	ft_strlen(const char *str);
 char    *get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
 void	*ft_calloc(size_t count, size_t size);
-char	*ft_strdup(const char *s1);
+char	*ft_strdup(char *s1);
 
 #endif
