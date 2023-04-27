@@ -6,34 +6,14 @@
 /*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:11:02 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/27 15:49:43 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/04/27 20:22:22 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <stdio.h>
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*s;
-	size_t			i;
-
-	i = 0;
-	if (count == SIZE_MAX || size == SIZE_MAX)
-		return (NULL);
-	s = malloc(count * size);
-	if (!s)
-		return (0);
-	while (i < count * size)
-	{
-		s[i] = '\0';
-		i++;
-	}
-	return ((void *)s);
-}
 
 char	*read_file(int fd, char *store_line)
 {
-	char 	*new_line;
+	char	*new_line;
 	int		bytes_read;
 
 	bytes_read = 1;
@@ -42,34 +22,33 @@ char	*read_file(int fd, char *store_line)
 		return (NULL);
 	while (!ft_strchr(store_line, '\n') && bytes_read != 0)
 	{
-		bytes_read = read(fd, new_line, BUFFER_SIZE); 
+		bytes_read = read(fd, new_line, BUFFER_SIZE);
 		if (bytes_read < 0)
 		{
 			free(new_line);
 			return (NULL);
 		}
-		if (bytes_read == 0 && store_line == NULL)
-			return (NULL);
+		new_line[bytes_read] = '\0';
 		store_line = ft_strjoin(store_line, new_line);
 	}
 	free(new_line);
 	return (store_line);
 }
 
-char	*ft_line(char *store_line) 
+char	*ft_line(char *store_line)
 {
 	char	*line;
-	int 	i;
+	int		i;
 
 	i = 0;
-	if(!store_line || store_line[0] == '\0')
+	if (!store_line || store_line[0] == '\0')
 		return (NULL);
-	while (store_line[i] != '\0' && store_line[i] != '\n') 
+	while (store_line[i] != '\0' && store_line[i] != '\n')
 		i++;
-	if (store_line[i] == '\n') 
-		line = ft_calloc((i + 2),  sizeof(char)); 
+	if (store_line[i] == '\n')
+		line = ft_calloc((i + 2), sizeof(char));
 	else
-		line = ft_calloc((i + 1), sizeof(char)); 
+		line = ft_calloc((i + 1), sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -84,7 +63,7 @@ char	*ft_line(char *store_line)
 	return (line);
 }
 
-char *ft_remain(char *store_line) 
+char	*ft_remain(char *store_line)
 {
 	char	*remain;
 	int		i;
@@ -115,8 +94,12 @@ char	*get_next_line(int fd)
 	static char	*store_line;
 	char		*line;
 
-	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1 || fd == -1) 
+	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0 || fd < 0)
+	{
+		free(store_line);
+		store_line = NULL;
 		return (NULL);
+	}
 	if (!store_line)
 	{
 		store_line = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
@@ -128,5 +111,5 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = ft_line(store_line);
 	store_line = ft_remain(store_line);
-	return (line);		
+	return (line);
 }
