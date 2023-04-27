@@ -89,29 +89,18 @@ char	*ft_remain(char *store_line)
 	return (remain);
 }
 
-char	*free_static(char store_line[])
-{
-	int	i;
-
-	i = 0;
-	while (i < 5000)
-	{
-		free(store_line[i]);
-		store_line[i] = NULL;
-	}
-	return (store_line);
-}
 char	*get_next_line(int fd)
 {
-	static char	store_line[5000];
+	static char	*store_line[5000];
 	char		*line;
 
 	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0 || fd < 0)
 	{
-		store_line[] = free_static(store_line);
+		free(store_line[fd]);
+		store_line[fd] = NULL;
 		return (NULL);
 	}
-	if (!store_line)
+	if (!store_line[fd])
 	{
 		store_line[fd] = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 		if (!store_line[fd])
