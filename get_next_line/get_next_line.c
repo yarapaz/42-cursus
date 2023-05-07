@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-char	*read_file(int fd, char *store_line)
+static char	*ft_read_file(int fd, char *store_line)
 {
 	char	*new_line;
 	int		bytes_read;
@@ -35,7 +35,7 @@ char	*read_file(int fd, char *store_line)
 	return (store_line);
 }
 
-char	*ft_line(char *store_line)
+static char	*ft_line(char *store_line)
 {
 	char	*line;
 	int		i;
@@ -63,7 +63,7 @@ char	*ft_line(char *store_line)
 	return (line);
 }
 
-char	*ft_remain(char *store_line)
+static char	*ft_remain(char *store_line)
 {
 	char	*remain;
 	int		i;
@@ -72,7 +72,7 @@ char	*ft_remain(char *store_line)
 	i = 0;
 	while (store_line[i] != '\n' && store_line[i] != '\0')
 		i++;
-	if (!store_line[i])
+	if (store_line[i] == '\0')
 	{
 		free(store_line);
 		return (NULL);
@@ -106,7 +106,7 @@ char	*get_next_line(int fd)
 		if (!store_line)
 			return (NULL);
 	}
-	store_line = read_file(fd, store_line);
+	store_line = ft_read_file(fd, store_line);
 	if (!store_line)
 		return (NULL);
 	line = ft_line(store_line);
