@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: yapaz-go <yapaz-go@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:09:58 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/13 20:12:51 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:54:06 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-int	ft_putchar(char c)
+#include "../ft_printf.h"
+
+int	ft_putchar(int c)
 {
 	write(1, &c, 1);
 	return (1);

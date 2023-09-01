@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: yapaz-go <yapaz-go@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 19:49:10 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/09 20:11:10 by yapaz-go         ###   ########.fr       */
+/*   Created: 2023/03/13 20:13:20 by yapaz-go          #+#    #+#             */
+/*   Updated: 2023/09/01 18:45:43 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+#include "../ft_printf.h"
+
+int	ft_putstr(char *s)
 {
-	char	*s;
+	int counter;
+	int	i;
 
-	if (count == SIZE_MAX || size == SIZE_MAX)
-		return (NULL);
-	s = malloc(count * size);
-	if (!s)
+	counter = 0;
+	if (s == NULL)
 		return (0);
-	ft_bzero((void *)s, count * size);
-	return ((void *)s);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		counter += ft_putchar(s[i]);
+		i++;
+	}
+
+	return (counter);
 }

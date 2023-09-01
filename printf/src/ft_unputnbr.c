@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_unputnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 20:13:20 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/13 20:22:33 by yapaz-go         ###   ########.fr       */
+/*   Created: 2023/03/13 20:26:18 by yapaz-go          #+#    #+#             */
+/*   Updated: 2023/03/13 20:57:52 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-int	ft_putstr(char *s)
+#include "../ft_printf.h"
+
+int	ft_unputnbr(unsigned int n)
 {
-	int counter;
-	int	i;
+	int	counter;
 
-	if (s == NULL)
-		return ;
-	i = 0;
-	while (s[i] != '\0')
+	counter = 0;
+	if (n == 0)
+		counter += ft_putchar((n + '0'));
+	if (n > 0)
 	{
-		counter += ft_putchar(s[i]);
-		i++;
+		if (n <= 9)
+			counter += ft_putchar((n + '0'));
+		else if (n > 9)
+		{
+			ft_putnbr(n / 10);
+			counter += ft_putchar(((n % 10) + '0'));
+		}
 	}
-
 	return (counter);
 }

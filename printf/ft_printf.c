@@ -3,23 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: yapaz-go <yapaz-go@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 19:49:10 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/08/09 20:11:10 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:46:31 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
+#include "ft_printf.h"
 
 int	ft_type(char *type, va_list args)
 {
 	int	counter;
 
+	counter = 0;
 	if (*type == 'c')
 		counter += ft_putchar(va_arg(args, int));
 	else if (*type == 's')
 		counter += ft_putstr(va_arg(args, char *));
+	else if (*type == 'p')
+	{
+		write(1, "0x", 2);
+		counter += 2;
+		counter += ft_puthexa_point(va_arg(args, unsigned long long), "0123456789abcdef");
+	}
 	else if (*type == 'd' || *type == 'i')                
 		counter += ft_putnbr(va_arg(args, int));
 	else if (*type == 'u')
@@ -27,7 +34,7 @@ int	ft_type(char *type, va_list args)
 	else if (*type == 'x')
 		counter += ft_puthexa(va_arg(args, unsigned int), "0123456789abcdef");
 	else if (*type == 'X')
-		counter += ft_puthexa(va_arg(args, unsigned int), "0123456789ABCDEF");
+		counter += ft_put_hexa_max(va_arg(args, unsigned int), "0123456789ABCDEF");
 	else if (*type == '%')
 		counter += ft_putchar('%');
 	return (counter);                            
@@ -38,6 +45,7 @@ int	ft_printf(char const *type, ...)
 	int		counter;
 	va_list	args;
 
+	counter = 0;
 	va_start(args, type);
 	while (*type)
 	{
@@ -53,6 +61,3 @@ int	ft_printf(char const *type, ...)
 	va_end(args);
 	return (counter);
 }
-str[i]
-
-	printf("hola esto es la prueba numero %d de la string %s", i, "yokse")

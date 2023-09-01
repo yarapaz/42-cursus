@@ -1,38 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_put_hexa_max.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: yapaz-go <yapaz-go@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:26:18 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/03/13 20:57:52 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:53:39 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-int	ft_putnbr(int n)
+#include "../ft_printf.h"
+
+int	ft_put_hexa_max(unsigned int n, char *base)
 {
-	int	counter;
+	int		counter;
+	int		positions[50];
+	int		i;
 
+	counter = 0;
+	i = 0;
 	if (n == 0)
-		counter += ft_putchar((n + '0'));
-	if (n == -2147483648)
-		counter += write(1, "-2147483648", 11);
-	else if (n < 0)
+		counter += ft_putchar('0');
+	while (n > 0)
 	{
-		counter += ft_putchar('-');
-		n = -n;
+		positions[i] = n % 16;
+		n = n / 16;
+		i++;
 	}
-	if (n > 0)
-	{
-		if (n <= 9)
-			counter += ft_putchar((n + '0'));
-		else if (n > 9)
-		{
-			ft_putnbr(n / 10);
-			counter += ft_putchar(((n % 10) + '0'));
-		}
-	}
+	while (--i >= 0)
+		counter += ft_putchar(base[positions[i]]);
+
 	return (counter);
 }
