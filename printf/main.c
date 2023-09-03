@@ -14,9 +14,14 @@
 
 int main(void)
 {
-    int    *results[4];
-    
+    int    original;
+    int    copia;
+
     original = printf("original %d", 34);
     copia = ft_printf("copia %d", 34);
-    return (original);    
+
+    printf("caracteres original %d", original);
+    printf("caracteres copia %d", copia);
+    
+    return (0);    
 }
