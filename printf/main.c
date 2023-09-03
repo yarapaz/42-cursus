@@ -14,6 +14,9 @@
 
 int main(void)
 {
-    printf("%u", -1);
-    return (0);    
+    int    *results[4];
+    
+    original = printf("original %d", 34);
+    copia = ft_printf("copia %d", 34);
+    return (original);    
 }
