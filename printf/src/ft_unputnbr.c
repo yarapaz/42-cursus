@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unputnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_unputnbr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yapaz-go <yapaz-go@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -25,7 +25,7 @@ int	ft_unputnbr(unsigned int n)
 			counter += ft_putchar((n + '0'));
 		else if (n > 9)
 		{
-			ft_putnbr(n / 10);
+			counter += ft_putnbr(n / 10);
 			counter += ft_putchar(((n % 10) + '0'));
 		}
 	}

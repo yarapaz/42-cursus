@@ -6,7 +6,7 @@
 /*   By: yapaz-go <yapaz-go@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:26:18 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/09/01 18:45:39 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:01:58 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@ int	ft_putnbr(int n)
 	counter = 0;
 	if (n == 0)
 		counter += ft_putchar((n + '0'));
-	if (n == -2147483648)
-		counter += write(1, "-2147483648", 11);
+	else if (n == -2147483648)
+		counter += ft_putstr("-2147483648");
 	else if (n < 0)
 	{
 		counter += ft_putchar('-');
-		n = -n;
+		counter += ft_putnbr(n * -1);
 	}
-	if (n > 0)
+	else if (n > 0)
 	{
 		if (n <= 9)
 			counter += ft_putchar((n + '0'));
 		else if (n > 9)
 		{
-			ft_putnbr(n / 10);
+			counter += ft_putnbr(n / 10);
 			counter += ft_putchar(((n % 10) + '0'));
 		}
 	}

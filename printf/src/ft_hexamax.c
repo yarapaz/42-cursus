@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_put_hexa_max.c                                  :+:      :+:    :+:   */
+/*   ft_hexamax.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yapaz-go <yapaz-go@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 20:26:18 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/09/01 18:53:39 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:09:11 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
 
-int	ft_put_hexa_max(unsigned int n, char *base)
+int	ft_hexamax(unsigned int n, char *base)
 {
 	int		counter;
 	int		positions[50];
@@ -30,6 +30,5 @@ int	ft_put_hexa_max(unsigned int n, char *base)
 	}
 	while (--i >= 0)
 		counter += ft_putchar(base[positions[i]]);
-
 	return (counter);
 }

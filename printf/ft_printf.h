@@ -6,7 +6,7 @@
 /*   By: yapaz-go <yapaz-go@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 18:41:48 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/09/01 18:54:10 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:08:30 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int		ft_putstr(char *s);
 int		ft_putnbr(int n);
 int		ft_unputnbr(unsigned int n);
 int		ft_puthexa(unsigned int n, char *base);
-int		ft_put_hexa_max(unsigned int n, char *base);
-int		ft_puthexa_point(unsigned long long n, char *base);
+int		ft_hexamax(unsigned int n, char *base);
+int		ft_hexpoint(unsigned long n, char *base);
 int		ft_printf(char const *type, ...);
 int		ft_type(char *type, va_list args);
 

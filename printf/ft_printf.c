@@ -6,11 +6,12 @@
 /*   By: yapaz-go <yapaz-go@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 19:49:10 by yapaz-go          #+#    #+#             */
-/*   Updated: 2023/09/01 18:46:31 by yapaz-go         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:47:17 by yapaz-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
 int	ft_type(char *type, va_list args)
 {
@@ -25,19 +26,19 @@ int	ft_type(char *type, va_list args)
 	{
 		write(1, "0x", 2);
 		counter += 2;
-		counter += ft_puthexa_point(va_arg(args, unsigned long long), "0123456789abcdef");
+		counter += ft_hexpoint(va_arg(args, unsigned long), "0123456789abcdef");
 	}
-	else if (*type == 'd' || *type == 'i')                
+	else if (*type == 'd' || *type == 'i')
 		counter += ft_putnbr(va_arg(args, int));
 	else if (*type == 'u')
 		counter += ft_unputnbr(va_arg(args, unsigned int));
 	else if (*type == 'x')
 		counter += ft_puthexa(va_arg(args, unsigned int), "0123456789abcdef");
 	else if (*type == 'X')
-		counter += ft_put_hexa_max(va_arg(args, unsigned int), "0123456789ABCDEF");
+		counter += ft_hexamax(va_arg(args, unsigned int), "0123456789ABCDEF");
 	else if (*type == '%')
 		counter += ft_putchar('%');
-	return (counter);                            
+	return (counter);
 }
 
 int	ft_printf(char const *type, ...)
